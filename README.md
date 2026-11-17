@@ -24,7 +24,7 @@ LIMIT 10;
 
 ## 3. Exploración y medida con PySpark
 
-Los tres TSV comprimidos se descargaron desde el sitio oficial de IMDb y se leyeron con esquemas explícitos: años y cantidades como enteros, calificaciones como decimal y los demás campos como texto. La ejecución se hizo en JupyterLab dentro de Docker, con Spark 3.3.1 en modo local de cuatro hilos, opción permitida por la consigna. El clúster `spark-master` rechazó la ejecución por los recursos disponibles.
+Los tres TSV comprimidos se descargaron desde el sitio oficial de IMDb y se leyeron con esquemas explícitos: años y cantidades como enteros, calificaciones como double y los demás campos como texto. La ejecución se hizo en JupyterLab dentro de Docker, con Spark 3.3.1 en modo local de cuatro hilos, opción permitida por la consigna. El clúster `spark-master` rechazó la ejecución por los recursos disponibles.
 
 ### Exploración de las fuentes
 
@@ -36,9 +36,9 @@ Estas transformaciones permitieron reconocer el contenido, la escala, los tipos 
 
 ### Pregunta e indicador
 
-**Pregunta:** ¿Qué calificación ponderada por cantidad de votos tienen las películas de Morgan Freeman identificadas en IMDb?
+**Pregunta:** ¿Cómo cambia la calificación ponderada al incluir todos los registros actorales con el nombre exacto Morgan Freeman frente a seguir a una sola persona identificada por IMDb como `nm0000151`?
 
-Se tomaron los títulos asociados a Morgan Freeman en `name.basics` (`knownForTitles`), se enlazaron por `tconst` con `title.basics` y `title.ratings`, y se limitaron los resultados a películas con calificación.
+En `name.basics`, el filtro por nombre exacto y profesión actoral devuelve tres identificadores. Para el segundo caso se usa el identificador estable `nm0000151`. En ambos, los títulos de `knownForTitles` se enlazan por `tconst` con `title.basics` y `title.ratings`, y se limitan a películas con calificación.
 
 Para el cruce se usa `broadcast` sobre la lista pequeña de títulos conocidos de la persona, evitando redistribuir innecesariamente las tablas grandes. El indicador se calculó como:
 
@@ -46,9 +46,9 @@ Para el cruce se usa `broadcast` sobre la lista pequeña de títulos conocidos d
 suma(calificación × cantidad de votos) / suma(cantidad de votos)
 ```
 
-El cruce encontró **8 películas**, con **6.317.253 votos** en total y una calificación ponderada de **8,85**. Entre los resultados aparecen *The Shawshank Redemption* (9,3; 3.265.691 votos), *Se7en* (8,6; 2.078.294) y *Million Dollar Baby* (8,1; 777.316).
+El filtro por nombre reunió **8 películas**, **6.317.253 votos** y un rating ponderado de **8,85**. Al limitarlo a `nm0000151`, el resultado es de **4 películas**, **6.246.565 votos** y **8,88**. Los cuatro títulos del segundo caso son *The Shawshank Redemption*, *Se7en*, *Million Dollar Baby* y *Driving Miss Daisy*; concentran casi todos los votos, por eso la diferencia entre indicadores es pequeña.
 
-El resultado usa la selección `knownForTitles` publicada por IMDb para la persona; no representa necesariamente toda su filmografía ni todos sus créditos actorales.
+El primer caso agrega los títulos conocidos de tres registros actorales con el mismo nombre exacto; el segundo sigue una sola identidad de IMDb. `knownForTitles` es una selección de obras destacadas y no representa necesariamente la filmografía completa.
 
 ![Ejecución visible en JupyterLab: películas asociadas a Morgan Freeman y calificación ponderada por votos](evidencia/spark-indicador-morgan-freeman.png)
 
