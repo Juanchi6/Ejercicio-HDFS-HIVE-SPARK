@@ -21,3 +21,31 @@ LIMIT 10;
 ```
 
 ![Consulta de cervecerías en Hive desde DBeaver](evidencia-hive-breweries.png)
+
+## 3. Exploración y medida con PySpark
+
+Se descargaron los tres TSV comprimidos desde el sitio oficial de IMDb y se leyeron desde el clúster Spark con esquemas explícitos: años y cantidades como enteros, calificaciones como decimal y los demás campos como texto.
+
+### Exploración de las fuentes
+
+- **`name.basics` (personas):** selección de nombre y profesiones para revisar registros; filtro de personas con profesión de actor o actriz; conteo agrupado de personas y revisión de nulos en año de nacimiento y profesión.
+- **`title.basics` (títulos):** selección de identificador, tipo, título y año; filtro de películas recientes (desde 2020); conteo de registros agrupado por tipo de título.
+- **`title.ratings` (calificaciones):** selección de identificador, promedio y votos; ordenamiento de títulos con más votos; agrupación por tramo entero de calificación.
+
+Estas transformaciones permitieron reconocer el contenido, la escala, los tipos de títulos y la presencia de datos faltantes antes de cruzar las fuentes.
+
+### Pregunta e indicador
+
+**Pregunta:** ¿Qué calificación ponderada por cantidad de votos tienen las películas de Morgan Freeman identificadas en IMDb?
+
+Se tomaron los títulos asociados a Morgan Freeman en `name.basics` (`knownForTitles`), se enlazaron por `tconst` con `title.basics` y `title.ratings`, y se limitaron los resultados a películas con calificación. El indicador se calculó como:
+
+```
+suma(calificación × cantidad de votos) / suma(cantidad de votos)
+```
+
+El cruce encontró **8 películas**, con **6.317.253 votos** en total y una calificación ponderada de **8,85**. Entre los resultados aparecen *The Shawshank Redemption* (9,3; 3.265.691 votos), *Se7en* (8,6; 2.078.294) y *Million Dollar Baby* (8,1; 777.316).
+
+El resultado usa la selección `knownForTitles` publicada por IMDb para la persona; no representa necesariamente toda su filmografía ni todos sus créditos actorales.
+
+<!-- La evidencia de la ejecución Spark se agregará en este apartado. -->
