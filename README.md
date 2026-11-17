@@ -24,7 +24,7 @@ LIMIT 10;
 
 ## 3. Exploración y medida con PySpark
 
-Se descargaron los tres TSV comprimidos desde el sitio oficial de IMDb y se leyeron desde el clúster Spark con esquemas explícitos: años y cantidades como enteros, calificaciones como decimal y los demás campos como texto.
+Los tres TSV comprimidos se descargaron desde el sitio oficial de IMDb y se leyeron con esquemas explícitos: años y cantidades como enteros, calificaciones como decimal y los demás campos como texto. La ejecución se hizo en JupyterLab dentro de Docker, con Spark 3.3.1 en modo local de cuatro hilos, opción permitida por la consigna. El clúster `spark-master` rechazó la ejecución por los recursos disponibles.
 
 ### Exploración de las fuentes
 
@@ -48,4 +48,4 @@ El cruce encontró **8 películas**, con **6.317.253 votos** en total y una cali
 
 El resultado usa la selección `knownForTitles` publicada por IMDb para la persona; no representa necesariamente toda su filmografía ni todos sus créditos actorales.
 
-<!-- La evidencia de la ejecución Spark se agregará en este apartado. -->
+![Ejecución visible en JupyterLab: películas asociadas a Morgan Freeman y calificación ponderada por votos](evidencia-spark-morgan-freeman.png)
