@@ -38,7 +38,9 @@ Estas transformaciones permitieron reconocer el contenido, la escala, los tipos 
 
 **Pregunta:** ¿Qué calificación ponderada por cantidad de votos tienen las películas de Morgan Freeman identificadas en IMDb?
 
-Se tomaron los títulos asociados a Morgan Freeman en `name.basics` (`knownForTitles`), se enlazaron por `tconst` con `title.basics` y `title.ratings`, y se limitaron los resultados a películas con calificación. El indicador se calculó como:
+Se tomaron los títulos asociados a Morgan Freeman en `name.basics` (`knownForTitles`), se enlazaron por `tconst` con `title.basics` y `title.ratings`, y se limitaron los resultados a películas con calificación.
+
+Para el cruce se usa `broadcast` sobre la lista pequeña de títulos conocidos de la persona, evitando redistribuir innecesariamente las tablas grandes. El indicador se calculó como:
 
 ```
 suma(calificación × cantidad de votos) / suma(cantidad de votos)
