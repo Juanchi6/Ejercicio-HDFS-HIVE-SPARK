@@ -49,3 +49,5 @@ El cruce encontró **8 películas**, con **6.317.253 votos** en total y una cali
 El resultado usa la selección `knownForTitles` publicada por IMDb para la persona; no representa necesariamente toda su filmografía ni todos sus créditos actorales.
 
 ![Ejecución visible en JupyterLab: películas asociadas a Morgan Freeman y calificación ponderada por votos](evidencia-spark-morgan-freeman.png)
+
+**Cuaderno ejecutado:** [analisis_imdb.ipynb](notebooks/analisis_imdb.ipynb)
