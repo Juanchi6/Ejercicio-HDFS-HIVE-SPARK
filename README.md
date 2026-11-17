@@ -6,7 +6,7 @@ Se preparó la plataforma Docker del práctico con Hadoop (HDFS y YARN), Hive, S
 
 La configuración se validó con `docker compose config` y luego se inició con Docker Compose. La comprobación mostró los servicios activos; Namenode, Datanode, ResourceManager, NodeManager e HistoryServer aparecieron saludables.
 
-![Plataforma Big Data iniciada en Docker Desktop](Captura%20de%20pantalla%202026-11-17%20160442.png)
+![Plataforma Big Data iniciada en Docker Desktop](evidencia/docker-plataforma.png)
 
 ## 2. Carga y consulta en Hive
 
@@ -20,7 +20,7 @@ FROM breweries
 LIMIT 10;
 ```
 
-![Consulta de cervecerías en Hive desde DBeaver](evidencia-hive-breweries.png)
+![Consulta de cervecerías en Hive desde DBeaver](evidencia/hive-consulta-breweries.png)
 
 ## 3. Exploración y medida con PySpark
 
@@ -48,6 +48,6 @@ El cruce encontró **8 películas**, con **6.317.253 votos** en total y una cali
 
 El resultado usa la selección `knownForTitles` publicada por IMDb para la persona; no representa necesariamente toda su filmografía ni todos sus créditos actorales.
 
-![Ejecución visible en JupyterLab: películas asociadas a Morgan Freeman y calificación ponderada por votos](evidencia-spark-morgan-freeman.png)
+![Ejecución visible en JupyterLab: películas asociadas a Morgan Freeman y calificación ponderada por votos](evidencia/spark-indicador-morgan-freeman.png)
 
 **Cuaderno ejecutado:** [analisis_imdb.ipynb](notebooks/analisis_imdb.ipynb)
